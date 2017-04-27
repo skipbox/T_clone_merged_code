@@ -1,0 +1,61 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="goals.dream.menu_1.MainActivity">
+
+    <item
+        android:id="@+id/icon_1"
+        android:icon="@drawable/ic_cloud"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/icon_2"
+        android:icon="@drawable/icon_craig_125"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/icon_3"
+        android:icon="@drawable/power_icon"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/icon_4"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/icon_5"
+        android:icon="@drawable/ic_happy"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/menu_1"
+        android:orderInCategory="100"
+        android:title="meun_1"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_2"
+        android:orderInCategory="100"
+        android:title="meun_2"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_3"
+        android:orderInCategory="100"
+        android:title="meun_3"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_4"
+        android:orderInCategory="100"
+        android:title="meun_4"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_5"
+        android:orderInCategory="100"
+        android:title="meun_5"
+        app:showAsAction="never" />
+</menu>
