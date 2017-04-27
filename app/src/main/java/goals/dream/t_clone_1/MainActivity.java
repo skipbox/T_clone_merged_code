@@ -25,7 +25,7 @@ import goals.dream.t_clone_1.R;
 import goals.dream.t_clone_1.SettingsActivity;
 
 import static android.R.attr.defaultValue;
-
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity {
     //SharedPreferences========================================================
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     //can also use integers
     SharedPreferences sharedpreferences;
 //SharedPreferences========================================================
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,15 @@ public class MainActivity extends AppCompatActivity {
             // startActivity(Intent);
         }
         if (id == R.id.icon_2) {
+
+            Intent start_act_2 = new Intent(this,Main2Activity.class);
+            //startActivity//start_act_2.putExtra(EXTRA_MESSAGE.message);
+            startActivity(start_act_2);
+            //Intent start_act_2 = new Intent(this.Main2Activity)
+            //start_act_2.putExtra(EXTRA_MESSAGE.message);
+            //start_act_2(startNewActivity);
+
+
             Toast.makeText(this, "icon_2", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.icon_3) {
