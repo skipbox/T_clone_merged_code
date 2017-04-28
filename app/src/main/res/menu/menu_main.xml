@@ -4,13 +4,13 @@
     tools:context="goals.dream.menu_1.MainActivity">
 
     <item
-        android:id="@+id/icon_1"
+        android:id="@+id/icon_5"
         android:icon="@drawable/ic_cloud"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:title="" />
     <item
-        android:id="@+id/icon_2"
+        android:id="@+id/icon_4"
         android:icon="@drawable/icon_craig_125"
         android:orderInCategory="100"
         app:showAsAction="always"
@@ -22,21 +22,21 @@
         app:showAsAction="always"
         android:title="" />
     <item
-        android:id="@+id/icon_4"
-        android:icon="@android:drawable/ic_btn_speak_now"
+        android:id="@+id/icon_2"
+        android:icon="@android:drawable/ic_input_add"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:title="" />
     <item
-        android:id="@+id/icon_5"
-        android:icon="@drawable/ic_happy"
+        android:id="@+id/icon_1"
+        android:icon="@drawable/ic_home"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:title="" />
     <item
         android:id="@+id/menu_1"
         android:orderInCategory="100"
-        android:title="meun_1"
+        android:title="Settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_2"

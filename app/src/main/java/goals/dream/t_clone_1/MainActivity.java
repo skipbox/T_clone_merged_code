@@ -75,22 +75,14 @@ public class MainActivity extends AppCompatActivity {
 //icons
         if (id == R.id.icon_1) {
             Toast.makeText(this, "icon_1", Toast.LENGTH_SHORT).show();
-            //starts the settings activity
-            Intent my_intent=new Intent(this,SettingsActivity.class);
-            startActivity(my_intent);
-            // Intent intent=new Inten(this.SettingsActivity.class);
-            // startActivity(Intent);
+            Intent start_act_home = new Intent(this,MainActivity.class);
+            startActivity(start_act_home);
+            //start_act_2.putExtra(EXTRA_MESSAGE.message);
         }
         if (id == R.id.icon_2) {
-
             Intent start_act_2 = new Intent(this,Main2Activity.class);
-            //startActivity//start_act_2.putExtra(EXTRA_MESSAGE.message);
             startActivity(start_act_2);
-            //Intent start_act_2 = new Intent(this.Main2Activity)
             //start_act_2.putExtra(EXTRA_MESSAGE.message);
-            //start_act_2(startNewActivity);
-
-
             Toast.makeText(this, "icon_2", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.icon_3) {
@@ -106,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
         //menu
         if (id == R.id.menu_1) {
             Toast.makeText(this, "menu_1", Toast.LENGTH_SHORT).show();
+            //starts the settings activity
+            Intent my_intent=new Intent(this,SettingsActivity.class);
+            startActivity(my_intent);
             //
         }
         if (id == R.id.menu_2) {
@@ -125,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             //
         }
         return super.onOptionsItemSelected(item);
-    }
+}
 
     //button clicks------------------------------------------------------------------
     public void buttonOnClick(View view) {

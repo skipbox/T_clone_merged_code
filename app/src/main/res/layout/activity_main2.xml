@@ -18,28 +18,39 @@
         android:layout_height="58dp">
 
         <Button
-            android:text="Button"
+            android:onClick="click_act_2"
+            android:text="Save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
+            android:id="@+id/act_b_1"
             android:layout_weight="1" />
 
         <Button
-            android:text="Button"
+            android:text="Test"
+            android:onClick="click_act_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
+            android:id="@+id/act_b_2"
             android:layout_weight="1" />
 
     </LinearLayout>
 
     <EditText
+        android:hint="Email"
+        android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="text"
         android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_weight="0.73"
-        android:text="ddddd_sadf" />
+        android:id="@+id/et_email" />
+
+    <EditText
+        android:hint="Password"
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/et_password" />
 
 </LinearLayout>
