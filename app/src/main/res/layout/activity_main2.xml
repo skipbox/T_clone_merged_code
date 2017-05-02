@@ -53,4 +53,16 @@
         android:ems="10"
         android:id="@+id/et_password" />
 
+    <CheckBox
+        android:onClick="click_act_2"
+        android:text="debug_show_jason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/my_check_box" />
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/web_2" />
+
 </LinearLayout>

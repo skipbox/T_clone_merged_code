@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "icon_2", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.icon_3) {
+            Intent start_act_3 = new Intent(this,Main3Activity.class);
+            startActivity(start_act_3);
             Toast.makeText(this, "icon_3", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.icon_4) {

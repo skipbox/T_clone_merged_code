@@ -41,7 +41,7 @@
     <item
         android:id="@+id/menu_2"
         android:orderInCategory="100"
-        android:title="meun_2"
+        android:title="testing check box"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_3"
