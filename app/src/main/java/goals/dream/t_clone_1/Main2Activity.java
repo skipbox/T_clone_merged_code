@@ -33,6 +33,8 @@ public class Main2Activity extends AppCompatActivity {
     public static final String key_1 = "k1";
     public static final String key_2 = "k2";
     public static final String key_3 = "k3";
+    public static final String key_4 = "k4";
+    public static final String key_5 = "k5";
     //can also use integers
     SharedPreferences sharedpreferences;
     //SharedPreferences========================================================
@@ -46,6 +48,9 @@ public class Main2Activity extends AppCompatActivity {
         //get the saved text
         TextView et_email_tv = (TextView)findViewById(R.id.et_email);
         TextView et_password_tv = (TextView)findViewById(R.id.et_password);
+        TextView et_timer_main_tv = (TextView)findViewById(R.id.et_timer_main);
+        TextView et_timer_sub_tv = (TextView)findViewById(R.id.et_timer_sub);
+
         CheckBox my_check_box_view = (CheckBox) findViewById(R.id.my_check_box);
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -54,35 +59,14 @@ public class Main2Activity extends AppCompatActivity {
         et_email_tv.setText(email_x);
         String password_x = sharedpreferences.getString(key_2,"default");
         et_password_tv.setText(password_x);
-        String my_check_box_x = sharedpreferences.getString(key_3,"default");
+        String timer_main_x = sharedpreferences.getString(key_3,"default");
+        et_timer_main_tv.setText(timer_main_x);
+        String timer_sub_x = sharedpreferences.getString(key_4,"default");
+        et_timer_sub_tv.setText(timer_sub_x);
+        String my_check_box_x = sharedpreferences.getString(key_5,"default");
         my_check_box_view.setChecked(Boolean.parseBoolean(my_check_box_x));
 
-
-
-
-
-        wv1 = (WebView) findViewById(R.id.web_2);
-        wv1.setWebChromeClient(new WebChromeClient());
-        wv1.getSettings().setJavaScriptEnabled(true);
-       // wv1.clearCache(true);
-
-       // wv1.getSettings().setAppCacheEnabled(false);
-      // wv1.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-
-
-        //wv1.setWebViewClient(new WebViewClient());
-
-        wv1.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                //do_when_page_loaded();
-                super.onPageFinished(view, url);
-            }
-        });
-
-        wv1.loadUrl("http://www.dreamgoals.info/craig/log_1.php");
-
-
+//click-save .... then home button then the +(plus) button to test
 
     }
 
@@ -118,18 +102,7 @@ public class Main2Activity extends AppCompatActivity {
             Toast.makeText(this, "icon_4", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.icon_5) {
-            wv1.evaluateJavascript(
-                    "(function() {return (document.getElementById('div_1').innerHTML); })();",
-                    new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String xxx) {
-                            // code here
-                            Toast.makeText(getApplicationContext(), xxx, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-
-           // Toast.makeText(this, "icon_5", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "icon_5", Toast.LENGTH_SHORT).show();
         }
 
         //menu
@@ -145,8 +118,6 @@ public class Main2Activity extends AppCompatActivity {
             CheckBox my_check_box_view = (CheckBox) findViewById(R.id.my_check_box);
             my_check_box_view.setChecked(true); //to check
            // my_check_box_view.setChecked(false); //to uncheck
-
-            wv1.loadUrl("http://www.dreamgoals.info/craig");
 
 
         }
@@ -168,16 +139,29 @@ public class Main2Activity extends AppCompatActivity {
     public void click_act_2(View view) {
         int the_id = view.getId();
         if (the_id == R.id.act_b_1) {
+            //save button
             TextView et_email_tv = (TextView)findViewById(R.id.et_email);
                 String et_email_get_text = et_email_tv.getText().toString();
             TextView et_password_tv = (TextView)findViewById(R.id.et_password);
                 String et_password_get_text = et_password_tv.getText().toString();
+
+            TextView et_timer_main_tv = (TextView)findViewById(R.id.et_timer_main);
+                String et_timer_main_get_text = et_timer_main_tv.getText().toString();
+            TextView et_timer_sub_tv = (TextView)findViewById(R.id.et_timer_sub);
+                String et_timer_sub_get_text = et_timer_sub_tv.getText().toString();
+
             //SharedPreferences========================================================
             sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
-//SharedPreferences========================================================
+            //SharedPreferences========================================================
             editor.putString(key_1, String.valueOf(et_email_get_text));
             editor.putString(key_2, String.valueOf(et_password_get_text));
+
+            editor.putString(key_3, String.valueOf(et_timer_main_get_text));
+            editor.putString(key_4, String.valueOf(et_timer_sub_get_text));
+
+
+            editor.putString(key_5, String.valueOf(et_timer_sub_get_text));
             editor.apply(); //replaced commit with apply
 
 
@@ -202,10 +186,10 @@ public class Main2Activity extends AppCompatActivity {
             boolean check_state = ((CheckBox) findViewById(R.id.my_check_box)).isChecked();
             sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(key_3, String.valueOf(check_state));
+            editor.putString(key_5, String.valueOf(check_state));
             editor.apply(); //replaced commit with apply
 
-            String temp_test = sharedpreferences.getString(key_3,"default");
+            String temp_test = sharedpreferences.getString(key_5,"default");
             Toast.makeText(this, "my_check_box\n"+check_state+"\n"+temp_test, Toast.LENGTH_SHORT).show();
         }
 

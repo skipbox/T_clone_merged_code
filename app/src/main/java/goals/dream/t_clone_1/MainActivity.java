@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String key_1 = "k1";
     public static final String key_2 = "k2";
     public static final String key_3 = "k3";
+    public static final String key_4 = "k4";
+    public static final String key_5 = "k5";
     //can also use integers
     SharedPreferences sharedpreferences;
 //SharedPreferences========================================================

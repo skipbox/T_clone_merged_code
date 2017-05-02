@@ -53,16 +53,54 @@
         android:ems="10"
         android:id="@+id/et_password" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <TextView
+            android:text="timer_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textviewxxx"
+            android:layout_weight="0.25" />
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="5"
+            android:ems="10"
+            android:id="@+id/et_timer_main"
+            android:layout_width="50dp"
+            android:layout_weight="0.25"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_blue_dark" />
+
+        <TextView
+            android:text="timer_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:layout_weight="0.25" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="10"
+            android:ems="10"
+            android:layout_weight="0.25"
+            android:textAlignment="center"
+            android:id="@+id/et_timer_sub"
+            android:textColor="@android:color/holo_green_dark" />
+
+    </LinearLayout>
+
     <CheckBox
         android:onClick="click_act_2"
         android:text="debug_show_jason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/my_check_box" />
-
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/web_2" />
 
 </LinearLayout>
