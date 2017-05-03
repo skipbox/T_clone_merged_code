@@ -25,6 +25,7 @@ import static goals.dream.t_clone_1.MainActivity.key_1;
 import static goals.dream.t_clone_1.MainActivity.key_2;
 import static goals.dream.t_clone_1.MainActivity.key_3;
 import static goals.dream.t_clone_1.R.id.et_email;
+import static goals.dream.t_clone_1.R.id.et_homepage_url;
 import static goals.dream.t_clone_1.R.id.my_check_box;
 
 public class Main2Activity extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class Main2Activity extends AppCompatActivity {
     public static final String key_3 = "k3";
     public static final String key_4 = "k4";
     public static final String key_5 = "k5";
+
+    public static final String key_6 = "k6";
     //can also use integers
     SharedPreferences sharedpreferences;
     //SharedPreferences========================================================
@@ -50,8 +53,9 @@ public class Main2Activity extends AppCompatActivity {
         TextView et_password_tv = (TextView)findViewById(R.id.et_password);
         TextView et_timer_main_tv = (TextView)findViewById(R.id.et_timer_main);
         TextView et_timer_sub_tv = (TextView)findViewById(R.id.et_timer_sub);
-
         CheckBox my_check_box_view = (CheckBox) findViewById(R.id.my_check_box);
+
+        TextView et_homepage_url_tv = (TextView)findViewById(R.id.et_homepage_url);
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
@@ -65,6 +69,9 @@ public class Main2Activity extends AppCompatActivity {
         et_timer_sub_tv.setText(timer_sub_x);
         String my_check_box_x = sharedpreferences.getString(key_5,"default");
         my_check_box_view.setChecked(Boolean.parseBoolean(my_check_box_x));
+
+        String url_x = sharedpreferences.getString(key_6,"https://www.google.com");
+        et_homepage_url_tv.setText(url_x);
 
 //click-save .... then home button then the +(plus) button to test
 

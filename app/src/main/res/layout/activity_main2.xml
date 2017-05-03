@@ -59,11 +59,11 @@
         android:layout_height="52dp">
 
         <TextView
-            android:text="timer_main"
+            android:id="@+id/textviewxxx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textviewxxx"
-            android:layout_weight="0.25" />
+            android:layout_weight="0.25"
+            android:text="timer_main (sec)" />
 
         <EditText
             android:layout_height="wrap_content"
@@ -77,11 +77,11 @@
             android:textColor="@android:color/holo_blue_dark" />
 
         <TextView
-            android:text="timer_sub"
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView6"
-            android:layout_weight="0.25" />
+            android:layout_weight="0.25"
+            android:text="timer_sub (sec)" />
 
         <EditText
             android:layout_width="50dp"
@@ -102,5 +102,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/my_check_box" />
+
+    <EditText
+        android:id="@+id/et_homepage_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="text"
+        android:text="et_homepage_url" />
 
 </LinearLayout>
