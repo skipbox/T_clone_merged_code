@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     String email;
     String password;
 
+    int current_step;
+    int current_step_count;
+
     int timer_main_delay;
     int timer_sub_delay;
     int timer_main_stop = 0;
