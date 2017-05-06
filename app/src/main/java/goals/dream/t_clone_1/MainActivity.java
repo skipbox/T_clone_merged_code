@@ -164,231 +164,31 @@ public class MainActivity extends AppCompatActivity {
         String web_url = wv1.getUrl();
         
 
-        //STEP 1 ===================================================================================
+//STEP 1 ===================================================================================
         if(web_url.contains("accounts.craigslist.org/login?lang=en&cc=us")){
             String update_text = "STEP 1: Log in = " + email + "/" + password;
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             my_text_log.setText(update_text_merged);
-
             send_line_to_log = update_text;
             new post_to_log().execute();
-
+            //-----------------
             wv1.loadUrl(
                     "javascript:(function() { " +
-                            "document.getElementById('inputEmailHandle').value = '"+email+"';" +
-                            "document.getElementById('inputPassword').value = '"+password+"';" +
-                            "})()");
+                    "document.getElementById('inputEmailHandle').value = '"+email+"';" +
+                    "document.getElementById('inputPassword').value = '"+password+"';" +
+                    "})()");
                 @Override
                 public void onFinish() {
                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
                     wv1.loadUrl(
-                            "javascript:(function() { " +
-                                    "document.querySelector('.accountform-btn').click();" +
-                                    "})()");
-                }
-
-        //==========================================================================================
-        //STEP 2====================================================================================
-        if(web_url.contains("accounts.craigslist.org/login/home")){
-            String update_text = "STEP 2: Choose Location = " + location;
-            String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
-            //there would not be ANY delay here if it crashes or is sporadic might be here.
-            my_text_log.setText(update_text_merged);
-
-            send_line_to_log = update_text;
-            new post_to_log().execute();
-
-            wv1.loadUrl(
                     "javascript:(function() { " +
-                            "document.getElementsByName('areaabb')[0].value = '"+location+"'" +
-                            "})()");
-                @Override
-                public void onFinish() {
-                    btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
-                    wv1.loadUrl(
-                            "javascript:(function() { " +
-                                    "document.getElementsByTagName('input')[5].click();" +
-                                    "})()");
+                    "document.querySelector('.accountform-btn').click();" +
+                    "})()");
                 }
-        }
-        //==========================================================================================
-
-
-
-        //STEP 3====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=type")){
-            String update_text = "STEP 3: Choose Ad Type (Cat) = " + category;
-            String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
-            my_text_log.setText(update_text_merged);
-
-            send_line_to_log = update_text;
-            new post_to_log().execute();
-
-            wv1.loadUrl(
-                    "javascript:(function() { " +
-                            "var input_selector = document.querySelectorAll('input[value=\""+category+"\"]');" +
-                            "input_selector[0].checked = true;" +
-                            "input_selector[0].click();" +
-                            "})()");
-            new CountDownTimer(timer_sub_delay*1000, 100) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
-                    btn_timer_sub.setBackgroundColor(Color.CYAN);
                 }
-
-                @Override
-                public void onFinish() {
-                    btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
-                    wv1.loadUrl(
-                            "javascript:(function() { " +
-                                    "document.querySelector('.pickbutton').click();" +
-                                    "})()");
-                }
-            }.start();
-        }
-        //==========================================================================================
-
-
-
-        //STEP 4====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=cat")){
-            String update_text = "STEP 4: Choose Ad Category (Sub Cat) = " + sub_category;
-            String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
-            my_text_log.setText(update_text_merged);
-
-            send_line_to_log = update_text;
-            new post_to_log().execute();
-
-            new CountDownTimer(timer_sub_delay*1000, 100) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
-                    btn_timer_sub.setBackgroundColor(Color.CYAN);
-                }
-
-                @Override
-                public void onFinish() {
-                    btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
-                    wv1.loadUrl(
-                            "javascript:(function() { " +
-                                    "var input_selector = document.querySelectorAll('input[value=\""+sub_category+"\"]');" +
-                                    //"input_selector[0].checked = true;" +
-                                    "input_selector[0].click();" +
-                                    "})()");
-                }
-            }.start();
-        }
-        //==========================================================================================
-
-
-        //STEP 5====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=edit") && !web_url.contains("=editimage")){
-            String update_text = "STEP 5: Fill Boxes";
-            String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
-            my_text_log.setText(update_text_merged);
-
-            send_line_to_log = update_text;
-            new post_to_log().execute();
-
-            wv1.loadUrl(
-                    "javascript:(function() { " +
-                            "var body_string = '" + body + "';" +
-                            "body_string = body_string.replace('\\n','<br>');" +
-                            "document.getElementById('PostingTitle').value = '"+title+"';" +
-                            "document.getElementById('GeographicArea').value = '"+geographic_area+"';" +
-                            "document.getElementById('postal_code').value = '"+postal_code+"';" +
-                            "document.getElementById('remuneration').value = '"+remuneration+"';" +
-                            //"document.getElementById('PostingBody').value = '"+body+"';" +
-                            "document.getElementById('PostingBody').value = body_string;" +
-                            "document.getElementById('employment_type').value = '"+employment_type+"';" +
-                            "input_selector[0].checked = true;" +
-                            "input_selector[0].click();" +
-                            "})()");
-
-            new CountDownTimer(timer_sub_delay*1000, 100) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
-                    btn_timer_sub.setBackgroundColor(Color.CYAN);
-                }
-
-                @Override
-                public void onFinish() {
-                    btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
-                    wv1.loadUrl(
-                            "javascript:(function() { " +
-                                    "document.querySelector('.bigbutton').click();" +
-                                    "})()");
-                }
-            }.start();
-        }
-        //==========================================================================================
-
-
-
-        //STEP 6====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=editimage")){
-            String update_text = "STEP 6: Skip Images";
-            String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
-            my_text_log.setText(update_text_merged);
-
-            send_line_to_log = update_text;
-            new post_to_log().execute();
-
-            new CountDownTimer(timer_sub_delay*1000, 100) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
-                    btn_timer_sub.setBackgroundColor(Color.CYAN);
-                }
-
-                @Override
-                public void onFinish() {
-                    btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
-                    wv1.loadUrl(
-                            "javascript:(function() { " +
-                                    "document.querySelector('.done.bigbutton').click();" +
-                                    "})()");
-                }
-            }.start();
-        }
-        //==========================================================================================
-
-
-
-        //STEP 7====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=preview")){
-            String update_text = "STEP 7: Ad Posted - Update SQL";
-            String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
-            my_text_log.setText(update_text_merged);
-
-            send_line_to_log = update_text;
-            new post_to_log().execute();
-
-            new CountDownTimer(timer_sub_delay*1000, 100) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
-                    btn_timer_sub.setBackgroundColor(Color.CYAN);
-                }
-
-                @Override
-                public void onFinish() {
-                    btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
-                    new update_ad_posted().execute();
-                    //wv1.loadUrl("");
-                }
-            }.start();
-        }
-        //==========================================================================================
-
-
-
-
-
-    }
-
+// ===================================================================================
+        
+        
     public class post_to_log extends AsyncTask<Void,Void,Void> {
 
         String words;
@@ -728,3 +528,204 @@ https://post.craigslist.org/k/EkHNznEu5xG5aGaMbNMO4w/LPAj7?lang=en&cc=us&s=previ
 https://post.craigslist.org/k/EkHNznEu5xG5aGaMbNMO4w/LPAj7?lang=en&cc=us&s=redirect
 
 */
+    
+    
+        //==========================================================================================
+        //STEP 2====================================================================================
+//         if(web_url.contains("accounts.craigslist.org/login/home")){
+//             String update_text = "STEP 2: Choose Location = " + location;
+//             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
+//             //there would not be ANY delay here if it crashes or is sporadic might be here.
+//             my_text_log.setText(update_text_merged);
+
+//             send_line_to_log = update_text;
+//             new post_to_log().execute();
+
+//             wv1.loadUrl(
+//                     "javascript:(function() { " +
+//                             "document.getElementsByName('areaabb')[0].value = '"+location+"'" +
+//                             "})()");
+//                 @Override
+//                 public void onFinish() {
+//                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
+//                     wv1.loadUrl(
+//                             "javascript:(function() { " +
+//                                     "document.getElementsByTagName('input')[5].click();" +
+//                                     "})()");
+//                 }
+//         }
+//         //==========================================================================================
+
+
+
+//         //STEP 3====================================================================================
+//         if(web_url.contains("post.craigslist.org") && web_url.contains("=type")){
+//             String update_text = "STEP 3: Choose Ad Type (Cat) = " + category;
+//             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
+//             my_text_log.setText(update_text_merged);
+
+//             send_line_to_log = update_text;
+//             new post_to_log().execute();
+
+//             wv1.loadUrl(
+//                     "javascript:(function() { " +
+//                             "var input_selector = document.querySelectorAll('input[value=\""+category+"\"]');" +
+//                             "input_selector[0].checked = true;" +
+//                             "input_selector[0].click();" +
+//                             "})()");
+//             new CountDownTimer(timer_sub_delay*1000, 100) {
+//                 @Override
+//                 public void onTick(long millisUntilFinished) {
+//                     btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
+//                     btn_timer_sub.setBackgroundColor(Color.CYAN);
+//                 }
+
+//                 @Override
+//                 public void onFinish() {
+//                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
+//                     wv1.loadUrl(
+//                             "javascript:(function() { " +
+//                                     "document.querySelector('.pickbutton').click();" +
+//                                     "})()");
+//                 }
+//             }.start();
+//         }
+//         //==========================================================================================
+
+
+
+//         //STEP 4====================================================================================
+//         if(web_url.contains("post.craigslist.org") && web_url.contains("=cat")){
+//             String update_text = "STEP 4: Choose Ad Category (Sub Cat) = " + sub_category;
+//             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
+//             my_text_log.setText(update_text_merged);
+
+//             send_line_to_log = update_text;
+//             new post_to_log().execute();
+
+//             new CountDownTimer(timer_sub_delay*1000, 100) {
+//                 @Override
+//                 public void onTick(long millisUntilFinished) {
+//                     btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
+//                     btn_timer_sub.setBackgroundColor(Color.CYAN);
+//                 }
+
+//                 @Override
+//                 public void onFinish() {
+//                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
+//                     wv1.loadUrl(
+//                             "javascript:(function() { " +
+//                                     "var input_selector = document.querySelectorAll('input[value=\""+sub_category+"\"]');" +
+//                                     //"input_selector[0].checked = true;" +
+//                                     "input_selector[0].click();" +
+//                                     "})()");
+//                 }
+//             }.start();
+//         }
+//         //==========================================================================================
+
+
+//         //STEP 5====================================================================================
+//         if(web_url.contains("post.craigslist.org") && web_url.contains("=edit") && !web_url.contains("=editimage")){
+//             String update_text = "STEP 5: Fill Boxes";
+//             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
+//             my_text_log.setText(update_text_merged);
+
+//             send_line_to_log = update_text;
+//             new post_to_log().execute();
+
+//             wv1.loadUrl(
+//                     "javascript:(function() { " +
+//                             "var body_string = '" + body + "';" +
+//                             "body_string = body_string.replace('\\n','<br>');" +
+//                             "document.getElementById('PostingTitle').value = '"+title+"';" +
+//                             "document.getElementById('GeographicArea').value = '"+geographic_area+"';" +
+//                             "document.getElementById('postal_code').value = '"+postal_code+"';" +
+//                             "document.getElementById('remuneration').value = '"+remuneration+"';" +
+//                             //"document.getElementById('PostingBody').value = '"+body+"';" +
+//                             "document.getElementById('PostingBody').value = body_string;" +
+//                             "document.getElementById('employment_type').value = '"+employment_type+"';" +
+//                             "input_selector[0].checked = true;" +
+//                             "input_selector[0].click();" +
+//                             "})()");
+
+//             new CountDownTimer(timer_sub_delay*1000, 100) {
+//                 @Override
+//                 public void onTick(long millisUntilFinished) {
+//                     btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
+//                     btn_timer_sub.setBackgroundColor(Color.CYAN);
+//                 }
+
+//                 @Override
+//                 public void onFinish() {
+//                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
+//                     wv1.loadUrl(
+//                             "javascript:(function() { " +
+//                                     "document.querySelector('.bigbutton').click();" +
+//                                     "})()");
+//                 }
+//             }.start();
+//         }
+//         //==========================================================================================
+
+
+
+//         //STEP 6====================================================================================
+//         if(web_url.contains("post.craigslist.org") && web_url.contains("=editimage")){
+//             String update_text = "STEP 6: Skip Images";
+//             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
+//             my_text_log.setText(update_text_merged);
+
+//             send_line_to_log = update_text;
+//             new post_to_log().execute();
+
+//             new CountDownTimer(timer_sub_delay*1000, 100) {
+//                 @Override
+//                 public void onTick(long millisUntilFinished) {
+//                     btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
+//                     btn_timer_sub.setBackgroundColor(Color.CYAN);
+//                 }
+
+//                 @Override
+//                 public void onFinish() {
+//                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
+//                     wv1.loadUrl(
+//                             "javascript:(function() { " +
+//                                     "document.querySelector('.done.bigbutton').click();" +
+//                                     "})()");
+//                 }
+//             }.start();
+//         }
+//         //==========================================================================================
+
+
+
+//         //STEP 7====================================================================================
+//         if(web_url.contains("post.craigslist.org") && web_url.contains("=preview")){
+//             String update_text = "STEP 7: Ad Posted - Update SQL";
+//             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
+//             my_text_log.setText(update_text_merged);
+
+//             send_line_to_log = update_text;
+//             new post_to_log().execute();
+
+//             new CountDownTimer(timer_sub_delay*1000, 100) {
+//                 @Override
+//                 public void onTick(long millisUntilFinished) {
+//                     btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
+//                     btn_timer_sub.setBackgroundColor(Color.CYAN);
+//                 }
+
+//                 @Override
+//                 public void onFinish() {
+//                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
+//                     new update_ad_posted().execute();
+//                     //wv1.loadUrl("");
+//                 }
+//             }.start();
+//         }
+//         //==========================================================================================    
+    
+    
+    
+    
