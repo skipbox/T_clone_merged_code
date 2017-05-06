@@ -153,37 +153,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void main_timer(){
-        btn_start_main_timer.setEnabled(false);
-        btn_stop_main_timer.setEnabled(true);
 
-        new CountDownTimer(999999*1000, timer_main_delay*1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-                btn_read_nextad_timer_main.setText(String.valueOf(millisUntilFinished/1000));
-
-                if (timer_main_stop == 1){
-                    btn_start_main_timer.setEnabled(true);
-                    btn_stop_main_timer.setEnabled(false);
-                    timer_main_stop = 0;
-                    cancel();
-                } else new read_nextad_post().execute();
-            }
-
-            @Override
-            public void onFinish() {
-                btn_start_main_timer.setEnabled(true);
-                btn_stop_main_timer.setEnabled(false);
-                timer_main_stop = 0;
-            }
-        }.start();
-    }
-
-
+    
+    //if the page is loaded then continue (checks every 1 second)
+//public void do_when_page_loaded()
+    //Toast.makeText(this, web_url+"\n IS LOADED NOW!!!!", Toast.LENGTH_SHORT).show();
+//String web_url = wv1.getUrl();
+    
     public void do_when_page_loaded(){
         String web_url = wv1.getUrl();
-        //Toast.makeText(this, web_url+"\n IS LOADED NOW!!!!", Toast.LENGTH_SHORT).show();
+        
 
         //STEP 1 ===================================================================================
         if(web_url.contains("accounts.craigslist.org/login?lang=en&cc=us")){
@@ -199,13 +178,6 @@ public class MainActivity extends AppCompatActivity {
                             "document.getElementById('inputEmailHandle').value = '"+email+"';" +
                             "document.getElementById('inputPassword').value = '"+password+"';" +
                             "})()");
-            new CountDownTimer(timer_sub_delay*1000, 100) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
-                    btn_timer_sub.setBackgroundColor(Color.CYAN);
-                }
-
                 @Override
                 public void onFinish() {
                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
@@ -214,12 +186,8 @@ public class MainActivity extends AppCompatActivity {
                                     "document.querySelector('.accountform-btn').click();" +
                                     "})()");
                 }
-            }.start();
-        }
+
         //==========================================================================================
-
-
-
         //STEP 2====================================================================================
         if(web_url.contains("accounts.craigslist.org/login/home")){
             String update_text = "STEP 2: Choose Location = " + location;
@@ -234,13 +202,6 @@ public class MainActivity extends AppCompatActivity {
                     "javascript:(function() { " +
                             "document.getElementsByName('areaabb')[0].value = '"+location+"'" +
                             "})()");
-            new CountDownTimer(timer_sub_delay*1000, 100) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btn_timer_sub.setText(String.valueOf(millisUntilFinished/1000));
-                    btn_timer_sub.setBackgroundColor(Color.CYAN);
-                }
-
                 @Override
                 public void onFinish() {
                     btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
@@ -249,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                                     "document.getElementsByTagName('input')[5].click();" +
                                     "})()");
                 }
-            }.start();
         }
         //==========================================================================================
 
