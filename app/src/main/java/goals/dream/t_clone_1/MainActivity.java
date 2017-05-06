@@ -37,6 +37,7 @@ import java.util.Random;
 import goals.dream.t_clone_1.R;
 import goals.dream.t_clone_1.SettingsActivity;
 
+import static android.R.attr.category;
 import static android.R.attr.defaultValue;
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         wv1.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                do_when_page_loaded();
+                //do_when_page_loaded();
                 //super.onPageFinished(view, url);
             }
         });
@@ -160,32 +161,27 @@ public class MainActivity extends AppCompatActivity {
     //Toast.makeText(this, web_url+"\n IS LOADED NOW!!!!", Toast.LENGTH_SHORT).show();
 //String web_url = wv1.getUrl();
     
-    public void do_when_page_loaded(){
-        String web_url = wv1.getUrl();
-        
+   // public void do_when_page_loaded(){
+   //     String web_url = wv1.getUrl();
 
-//STEP 1 ===================================================================================
-        if(web_url.contains("accounts.craigslist.org/login?lang=en&cc=us")){
-            String update_text = "STEP 1: Log in = " + email + "/" + password;
-            String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
-            my_text_log.setText(update_text_merged);
-            send_line_to_log = update_text;
-            new post_to_log().execute();
-            //-----------------
-            wv1.loadUrl(
-                    "javascript:(function() { " +
-                    "document.getElementById('inputEmailHandle').value = '"+email+"';" +
-                    "document.getElementById('inputPassword').value = '"+password+"';" +
-                    "})()");
-                @Override
-                public void onFinish() {
-                    btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
-                    wv1.loadUrl(
-                    "javascript:(function() { " +
-                    "document.querySelector('.accountform-btn').click();" +
-                    "})()");
-                }
-                }
+public void step_1(){
+    String web_url = wv1.getUrl();
+    if(web_url.contains("accounts.craigslist.org/login?lang=en&cc=us")) {
+        wv1.loadUrl(
+        "javascript:(function() { " +
+        "document.getElementById('inputEmailHandle').value = '" + email + "';" +
+        "document.getElementById('inputPassword').value = '" + password + "';" +
+        "})()");
+}}
+public void step_2(){
+        btn_timer_sub.setBackgroundResource(android.R.drawable.btn_default);
+        wv1.loadUrl(
+        "javascript:(function() { " +
+        "document.querySelector('.accountform-btn').click();" +
+        "})()");
+        }}
+
+
 // ===================================================================================
         
         
@@ -450,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
         int the_id = view.getId();
 
         if (the_id == R.id.b_timer_main_stop) {
-            timer_main_stop = 1;
+            Toast.makeText(this, "bu t_3_works\n", Toast.LENGTH_SHORT).show();
         }
 
         if (the_id == R.id.b_timer_main_start) {
