@@ -8,7 +8,10 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String key_5 = "k5";
     //can also use integers
     SharedPreferences sharedpreferences;
-//SharedPreferences========================================================
+    //SharedPreferences========================================================
 
     String email_phone_key = "xxxxxx@gmail.com";
     String password_phone_key = "password_xxx";
@@ -63,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
     int timer_main_delay;
     int timer_sub_delay;
-    int timer_main_stop = 0;
+    boolean auto_post = false;
+    long post_started_time;
 
     String title;
     String body;
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     WebView wv1;
 
     Button btn_start_main_timer;
-    Button btn_stop_main_timer;
+    Button btn_click_counter;
     Button btn_read_nextad_timer_main;
     Button btn_timer_sub;
 
@@ -105,11 +109,10 @@ public class MainActivity extends AppCompatActivity {
         my_row_id = (EditText) findViewById(R.id.text_row_id);
 
         btn_start_main_timer = (Button) findViewById(R.id.b_timer_main_start);
-        btn_stop_main_timer = (Button) findViewById(R.id.b_timer_main_stop);
+        btn_click_counter = (Button) findViewById(R.id.b_click_count);
         btn_read_nextad_timer_main = (Button) findViewById(R.id.b_read_nextad_timer_main);
         btn_timer_sub = (Button) findViewById(R.id.b_timer_sub);
 
-        btn_stop_main_timer.setEnabled(false);
 
         //SharedPreferences========================================================
         // sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -137,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
         email_phone_key = sharedpreferences.getString(key_1,"default");
         password_phone_key = sharedpreferences.getString(key_2,"default");
 
-        String timer_main_delay_string = sharedpreferences.getString(key_3,"default");
-        String timer_sub_delay_string = sharedpreferences.getString(key_4,"default");
+        String timer_main_delay_string = sharedpreferences.getString(key_3,"5");
+        String timer_sub_delay_string = sharedpreferences.getString(key_4,"10");
 
         timer_main_delay = Integer.parseInt(timer_main_delay_string);
         timer_sub_delay = Integer.parseInt(timer_sub_delay_string);
@@ -152,41 +155,12 @@ public class MainActivity extends AppCompatActivity {
         my_text_log.setText(update_text_merged);
     }
 
-
-    public void main_timer(){
-        btn_start_main_timer.setEnabled(false);
-        btn_stop_main_timer.setEnabled(true);
-
-        new CountDownTimer(999999*1000, timer_main_delay*1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-                btn_read_nextad_timer_main.setText(String.valueOf(millisUntilFinished/1000));
-
-                if (timer_main_stop == 1){
-                    btn_start_main_timer.setEnabled(true);
-                    btn_stop_main_timer.setEnabled(false);
-                    timer_main_stop = 0;
-                    cancel();
-                } else new read_nextad_post().execute();
-            }
-
-            @Override
-            public void onFinish() {
-                btn_start_main_timer.setEnabled(true);
-                btn_stop_main_timer.setEnabled(false);
-                timer_main_stop = 0;
-            }
-        }.start();
-    }
-
-
     public void do_when_page_loaded(){
         String web_url = wv1.getUrl();
         //Toast.makeText(this, web_url+"\n IS LOADED NOW!!!!", Toast.LENGTH_SHORT).show();
 
         //STEP 1 ===================================================================================
-        if(web_url.contains("accounts.craigslist.org/login?lang=en&cc=us")){
+        if(web_url.contains("accounts.craigslist.org/login?lang=en&cc=us") && auto_post){
             String update_text = "STEP 1: Log in = " + email + "/" + password;
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             my_text_log.setText(update_text_merged);
@@ -221,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //STEP 2====================================================================================
-        if(web_url.contains("accounts.craigslist.org/login/home")){
+        if(web_url.contains("accounts.craigslist.org/login/home") && !web_url.contains("=drafts") && auto_post){
             String update_text = "STEP 2: Choose Location = " + location;
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             //there would not be ANY delay here if it crashes or is sporadic might be here.
@@ -256,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //STEP 3====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=type")){
+        if(web_url.contains("post.craigslist.org") && web_url.contains("=type") && auto_post){
             String update_text = "STEP 3: Choose Ad Type (Cat) = " + category;
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             my_text_log.setText(update_text_merged);
@@ -292,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //STEP 4====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=cat")){
+        if(web_url.contains("post.craigslist.org") && web_url.contains("=cat") && auto_post){
             String update_text = "STEP 4: Choose Ad Category (Sub Cat) = " + sub_category;
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             my_text_log.setText(update_text_merged);
@@ -323,13 +297,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         //STEP 5====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=edit") && !web_url.contains("=editimage")){
+        if(web_url.contains("post.craigslist.org") && web_url.contains("=edit") && !web_url.contains("=editimage") && auto_post){
             String update_text = "STEP 5: Fill Boxes";
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             my_text_log.setText(update_text_merged);
 
             send_line_to_log = update_text;
             new post_to_log().execute();
+
+            String box2 = "";
+            String selection2 = "";
+
+            if (category.equals("jo")) box2="remuneration";
+            if (category.equals("fso")) box2="Ask";
+
+            if (category.equals("jo")) selection2="employment_type";
+            if (category.equals("fso") && sub_category.equals("153")) selection2="mobile_os";
 
             wv1.loadUrl(
                     "javascript:(function() { " +
@@ -338,10 +321,10 @@ public class MainActivity extends AppCompatActivity {
                             "document.getElementById('PostingTitle').value = '"+title+"';" +
                             "document.getElementById('GeographicArea').value = '"+geographic_area+"';" +
                             "document.getElementById('postal_code').value = '"+postal_code+"';" +
-                            "document.getElementById('remuneration').value = '"+remuneration+"';" +
+                            "document.getElementById('"+box2+"').value = '"+remuneration+"';" +
                             //"document.getElementById('PostingBody').value = '"+body+"';" +
                             "document.getElementById('PostingBody').value = body_string;" +
-                            "document.getElementById('employment_type').value = '"+employment_type+"';" +
+                            "document.getElementById('"+selection2+"').value = '"+employment_type+"';" +
                             "input_selector[0].checked = true;" +
                             "input_selector[0].click();" +
                             "})()");
@@ -368,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //STEP 6====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=editimage")){
+        if(web_url.contains("post.craigslist.org") && web_url.contains("=editimage") && auto_post){
             String update_text = "STEP 6: Skip Images";
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             my_text_log.setText(update_text_merged);
@@ -398,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //STEP 7====================================================================================
-        if(web_url.contains("post.craigslist.org") && web_url.contains("=preview")){
+        if(web_url.contains("post.craigslist.org") && web_url.contains("=preview") && auto_post){
             String update_text = "STEP 7: Ad Posted - Update SQL";
             String update_text_merged = update_text + System.getProperty ("line.separator") + my_text_log.getText().toString();
             my_text_log.setText(update_text_merged);
@@ -492,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
 
             send_line_to_log = update_text;
             new post_to_log().execute();
-            main_timer();
+
         }
 
     }
@@ -527,12 +510,18 @@ public class MainActivity extends AppCompatActivity {
             new post_to_log().execute();
 
             if (data_from_php.startsWith("Post Ad")){
+                post_started_time = System.currentTimeMillis();
                 next_ad_post_id = data_from_php.substring(8); //strip off "Post Ad:" to get id by itself
                 //Toast.makeText(getApplicationContext(), "Hello:"+next_ad_post_id, Toast.LENGTH_LONG).show();
                 my_row_id.setText(next_ad_post_id); //update box in corner with id to post
                 new read_row_json().execute();  //starts posting process
-                timer_main_stop = 1;
             }
+
+            if (data_from_php.startsWith("Next Ad: ")){
+                next_ad_post_id = data_from_php.substring(data_from_php.indexOf("(")+1,data_from_php.indexOf(")"));
+                my_row_id.setText(next_ad_post_id); //update box in corner with id to post
+            }
+
         }
 
     }
@@ -579,6 +568,7 @@ public class MainActivity extends AppCompatActivity {
                 body = mainObject.getString("body");
 
                 body = body.replaceAll("(\r\n|\n\r|\r|\n)", "<br>");
+                body = body.replaceAll("'", "\\\\'");
                 //body = body.replaceAll("(\r\n|\n\r|\r|\n)", System.getProperty ("line.separator")+"\n");
 
 
@@ -619,6 +609,25 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+    int main_counter = 0;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+      /* do what you need to do */
+            if (main_counter >= 10) {main_counter = 0;} else main_counter = main_counter + 1;
+            btn_read_nextad_timer_main.setText(String.valueOf(main_counter));
+
+            //pause checking next ad for 10 mins if ad posting started
+            if (System.currentTimeMillis() > (post_started_time+180*1000)) {
+                new read_nextad_post().execute();
+            } else btn_click_counter.setText(String.valueOf(((post_started_time+180*1000)-System.currentTimeMillis())/1000));
+      /* and here comes the "trick" */
+            handler.postDelayed(this, timer_main_delay*1000);
+        }
+    };
 
 
 
@@ -667,7 +676,9 @@ public class MainActivity extends AppCompatActivity {
             //
         }
         if (id == R.id.menu_2) {
-            Toast.makeText(this, "menu_2", Toast.LENGTH_SHORT).show();
+            //paste code heree
+            //b_timer_main_stop
+            Toast.makeText(this, "OFF has been clicked"+"--b_timer_main_stop", Toast.LENGTH_SHORT).show();
             //
         }
         if (id == R.id.menu_3) {
@@ -689,33 +700,22 @@ public class MainActivity extends AppCompatActivity {
     public void buttonOnClick(View view) {
         int the_id = view.getId();
 
-        if (the_id == R.id.b_timer_main_stop) {
-            timer_main_stop = 1;
-        }
+
 
         if (the_id == R.id.b_timer_main_start) {
-            main_timer();
+            handler.postDelayed(runnable, 100);
+            btn_start_main_timer.setBackgroundColor(Color.GREEN);
 
-    /*      Random rand = new Random();
-            int my_rand = rand.nextInt(20);
-            int my_rand_2 = rand.nextInt(20);
-            //SharedPreferences========================================================
-            sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            //SharedPreferences========================================================
-            editor.putString(key_1, String.valueOf(my_rand));
-            editor.putString(key_2, String.valueOf(my_rand_2));
-            editor.putString(key_3, "333333333333333333333");
-            editor.apply(); //replaced commit with apply
-
-            Toast.makeText(this, "but_1_works\n"
-                    +String.valueOf(my_rand)+
-                    "\n"+String.valueOf(my_rand_2), Toast.LENGTH_SHORT).show();*/
+             auto_post = true;
 
         }
+        if (the_id == R.id.b_click_count) {
+            wv1.loadUrl("https://accounts.craigslist.org/login/home?show_tab=drafts");
+            //Toast.makeText(this, "act_3_b_1---"+String.valueOf(count_j), Toast.LENGTH_SHORT).show();
+        }
         if (the_id == R.id.b_read_nextad_timer_main) {
-
-            new read_nextad_post().execute();
+            wv1.loadUrl("https://www.google.com/gmail");
+            //new read_nextad_post().execute();
 
         /*  sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             String highScore = sharedpreferences.getString(key_1,"default");
@@ -730,6 +730,7 @@ public class MainActivity extends AppCompatActivity {
             b1_x.setTextColor(Color.parseColor("#0404B4"));*/
         }
         if (the_id == R.id.b_timer_sub) {
+
             //*use this for the settings is using PREFERECE MANAGER
             //sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
             //*find the example_text in the pref_general.xml file
@@ -738,7 +739,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 
 }

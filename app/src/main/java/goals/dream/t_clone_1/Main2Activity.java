@@ -63,9 +63,9 @@ public class Main2Activity extends AppCompatActivity {
         et_email_tv.setText(email_x);
         String password_x = sharedpreferences.getString(key_2,"default");
         et_password_tv.setText(password_x);
-        String timer_main_x = sharedpreferences.getString(key_3,"default");
+        String timer_main_x = sharedpreferences.getString(key_3,"5");
         et_timer_main_tv.setText(timer_main_x);
-        String timer_sub_x = sharedpreferences.getString(key_4,"default");
+        String timer_sub_x = sharedpreferences.getString(key_4,"10");
         et_timer_sub_tv.setText(timer_sub_x);
         String my_check_box_x = sharedpreferences.getString(key_5,"default");
         my_check_box_view.setChecked(Boolean.parseBoolean(my_check_box_x));
