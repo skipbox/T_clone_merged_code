@@ -321,9 +321,8 @@ public class MainActivity extends AppCompatActivity {
                             "document.getElementById('PostingTitle').value = '"+title+"';" +
                             "document.getElementById('GeographicArea').value = '"+geographic_area+"';" +
                             "document.getElementById('postal_code').value = '"+postal_code+"';" +
-                            "document.getElementById('"+box2+"').value = '"+remuneration+"';" +
-                            //"document.getElementById('PostingBody').value = '"+body+"';" +
                             "document.getElementById('PostingBody').value = body_string;" +
+                            "document.getElementById('"+box2+"').value = '"+remuneration+"';" +
                             "document.getElementById('"+selection2+"').value = '"+employment_type+"';" +
                             "input_selector[0].checked = true;" +
                             "input_selector[0].click();" +
@@ -564,11 +563,15 @@ public class MainActivity extends AppCompatActivity {
 
                 category = mainObject.getString("cat");
                 sub_category = mainObject.getString("cat_sub");
-                title = mainObject.getString("title");
-                body = mainObject.getString("body");
 
+                title = mainObject.getString("title");
+                body = body.replaceAll("'", "\\\\'");
+                //body = body.replaceAll("\\\\", "\\\\\\\\");
+
+                body = mainObject.getString("body");
                 body = body.replaceAll("(\r\n|\n\r|\r|\n)", "<br>");
                 body = body.replaceAll("'", "\\\\'");
+                //body = body.replaceAll("'", "\\\\'");
                 //body = body.replaceAll("(\r\n|\n\r|\r|\n)", System.getProperty ("line.separator")+"\n");
 
 
@@ -625,7 +628,9 @@ public class MainActivity extends AppCompatActivity {
                 new read_nextad_post().execute();
             } else btn_click_counter.setText(String.valueOf(((post_started_time+180*1000)-System.currentTimeMillis())/1000));
       /* and here comes the "trick" */
-            handler.postDelayed(this, timer_main_delay*1000);
+            if(auto_post){
+                handler.postDelayed(this, timer_main_delay*1000);
+            } else btn_start_main_timer.setText("OFF");
         }
     };
 
@@ -703,10 +708,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (the_id == R.id.b_timer_main_start) {
-            handler.postDelayed(runnable, 100);
-            btn_start_main_timer.setBackgroundColor(Color.GREEN);
-
-             auto_post = true;
+            if(auto_post == false) {
+                auto_post = true;
+                handler.postDelayed(runnable, 100);
+                btn_start_main_timer.setText("ON");
+                btn_start_main_timer.setBackgroundColor(Color.GREEN);
+            } else {
+                auto_post = false;
+                btn_start_main_timer.setBackgroundColor(Color.MAGENTA);
+            }
 
         }
         if (the_id == R.id.b_click_count) {
